@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人简历</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Todo 区块的样式，独立命名，避免影响简历 -->
+  <style>
+    .todo-section {
+      max-width: 720px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #e5e5e5;
+      border-radius: 8px;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    .todo-section h2 {
+      margin-top: 0;
+    }
+    .todo-section input {
+      padding: 8px;
+      width: 60%;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+    .todo-section button {
+      padding: 8px 14px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    #todoMsg {
+      color: #d33;
+      min-height: 1.2em;
+      font-size: 13px;
+      margin: 6px 0;
+    }
+    #todoList {
+      padding-left: 20px;
+      margin: 8px 0 0;
+    }
+    #todoList li {
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="resume">
+
+    <!-- 顶部个人信息 -->
+    <header class="header">
+      <img class="avatar" src="1.jpg" alt="头像" />
+      <div class="info">
+        <h1>张振南</h1>
+        <p class="job-title">前端开发工程师</p>
+      </div>
+    </header>
+
+    <!-- 联系方式 -->
+    <div class="contact">
+      <span>📧 zhangsan@example.com</span>
+      <span>📱 138-0000-0000</span>
+      <span>📍 深圳</span>
+      <span>🔗 github.com/zhangsan</span>
+    </div>
+
+    <!-- 主体内容：左栏 + 右栏 -->
+    <main class="main">
+
+      <!-- 左栏 -->
+      <div class="left-column">
+
+        <section>
+          <h2 class="section-title">工作经历</h2>
+
+          <div class="experience-item">
+            <h3>某科技公司 · 前端开发工程师</h3>
+            <p class="meta">2022.07 - 至今</p>
+            <p>负责公司后台管理系统开发，使用 Vue3 + TypeScript。</p>
+          </div>
+
+          <div class="experience-item">
+            <h3>某互联网公司 · 前端实习生</h3>
+            <p class="meta">2021.09 - 2022.06</p>
+            <p>参与移动端 H5 页面开发与性能优化。</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title">项目经历</h2>
+
+          <div class="project-item">
+            <h3>企业级后台管理系统</h3>
+            <p class="meta">Vue3 · TypeScript · Vite</p>
+            <p>负责权限模块、表格组件封装，首屏加载优化 40%。</p>
+          </div>
+
+          <div class="project-item">
+            <h3>电商 H5 活动页</h3>
+            <p class="meta">React · Tailwind CSS</p>
+            <p>实现活动页组件化开发，支持多端适配。</p>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="section-title">教育背景</h2>
+
+          <div class="education-item">
+            <h3>某某大学 · 计算机科学与技术</h3>
+            <p class="meta">2018.09 - 2022.06 · 本科</p>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- 右栏 -->
+      <aside class="right-column">
+
+        <section>
+          <h2 class="section-title">个人简介</h2>
+          <p>3 年前端开发经验，熟悉 Vue / React 技术栈，关注性能优化与工程化。</p>
+        </section>
+
+        <section>
+          <h2 class="section-title">技能标签</h2>
+          <div class="skills">
+            <span class="skill-tag">HTML</span>
+            <span class="skill-tag">CSS</span>
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">Vue3</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Vite</span>
+            <span class="skill-tag">Git</span>
+          </div>
+        </section>
+
+      </aside>
+
+    </main>
+
+  </div>
+
+  <!-- ===== Todo 列表 V2.0 基础版 ===== -->
+  <section class="todo-section">
+    <h2>Todo 列表 V2.0</h2>
+
+    <input id="todoInput" type="text" placeholder="请输入待办内容" />
+    <button id="addBtn" type="button">添加</button>
+    <p id="todoMsg"></p>
+    <ul id="todoList"></ul>
+  </section>
+
+  <script>
+    (function () {
+      'use strict'
+
+      const input = document.getElementById('todoInput')
+      const addBtn = document.getElementById('addBtn')
+      const list = document.getElementById('todoList')
+      const msg = document.getElementById('todoMsg')
+
+      if (!input || !addBtn || !list || !msg) {
+        console.error('Todo 初始化失败：缺少必要 DOM 元素')
+        return
+      }
+
+      function showMessage(text) {
+        msg.textContent = text || ''
+      }
+
+      function createTodoItem(text) {
+        const li = document.createElement('li')
+        li.textContent = text
+        return li
+      }
+
+      function addTodo() {
+        const text = input.value.trim()
+
+        if (!text) {
+          showMessage('请输入内容')
+          input.focus()
+          return
+        }
+
+        try {
+          const li = createTodoItem(text)
+          list.appendChild(li)
+
+          input.value = ''
+          showMessage('')
+          input.focus()
+        } catch (error) {
+          console.error('添加待办失败：', error)
+          showMessage('添加失败，请重试')
+        }
+      }
+
+      addBtn.addEventListener('click', addTodo)
+
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+          addTodo()
+        }
+      })
+    })()
+  </script>
+
+</body>
+</html>
